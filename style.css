@@ -18,6 +18,13 @@ body {
 	box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
+h1 {
+	text-align: center;
+	font-family: Lucida Console;
+	font-size: 8vmin;
+	margin-top: 4%;
+}
+
 .top-img {
 	position: absolute;
 	width: 30%;
