@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html onclick="ee(event)">
+	<head>
+		<title>The Enigma Machine</title>
+		<link rel="stylesheet" href="style.css">
+		<script src="processing.js"></script>
+	</head>
+	<body>
+		<a href="https://en.wikipedia.org/wiki/Enigma_machine" target="_black"><img src="media/enigma-logo.png" class="top-img"></a>
+		<img src="media/flag.png" class="corner-ul">
+		<img src="media/enigma.jpg" class="corner-ur">
+		<canvas data-processing-sources="enigma/enigma.pde" id="canvas"></canvas>
+		<div id="info-div">
+			<h2 id="info-header" class="info-text">The Enigma Machine</h2>
+			<p id="info-text" class="info-text">
+			The Enigma Machine was an encryption device invented by the German engineer
+			<a href="https://en.wikipedia.org/wiki/Arthur_Scherbius" target="_blank" id="wiki-link">
+			Arthur Scherbius</a> at the end of World War I. It is a small box, containing many options for different encryption/decryption
+			configurations. They box also has a keyboard, on which when a key is pressed, the character pressed is run through
+			the configurations, and out comes a new character that is then indicated by the lampboard.<br><br>
+			<a href="media/enigma-labeled.jpg" target="_blank" id="img-link"><img src="media/enigma-labeled.jpg" align="right" id="info-img1"></a>
+			Here is an image (click to enlarge) of this very box, the <b>Enigma I</b>, used in the late 1930s during WWII. As you can see, it has a plugboard
+			in the front, facing towards the operator. Above that is the keyboard alongside the lampboard, that shows the produced
+			character. Finally, above the lamps are the rotors. All these parts together allow the machine to be in nearly <i>159
+			<a href="https://en.wiktionary.org/wiki/quintillion" target="_blank" id="wiki-link">quintillion</a></i> different states,
+			thus making it cryptographically very secure for its time.<br><br>
+			
+			However, in today's standards it would be rather easy to crack text encrypted with the Enigma Machine, due to massively increased
+			computation power. In comparison, the modern 2048-bit RSA encryption has a lot more "combinations" than the Enigma Machine (RSA's 2<sup>2048</sup>
+			over Enigma I's &#126;2<sup>380</sup>), thus making modern cryptography <i>way</i> more secure.<br><br>
+			
+			On the right side, you can try the simulator to see how the model of the Enigma Machine presented here works. Try pressing some keys!
+			<button id="help" onclick="help()">Display controls</button
+			</p>
+		</div>
+		<script>
+			function ee(e) {
+				if (e.x == 0 && e.y == 0) {
+					window.location.href = "https://buster.lu";
+				}
+			}
+			function help() {
+				alert("Input: keyboard keys A - Z\nChange plugboard: CTRL + [key 1, A - Z] + [key 2, A - Z]\nChange rotors: CTRL + [rotor #, 1 - 3] + [rotor name, 1 - 3]\nReset rotors: CTRL + SPACE\n\n(you may need to first click on the simulator to use it)");
+			}
+		</script>
+	</body>
+</html>
