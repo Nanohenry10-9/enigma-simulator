@@ -2,13 +2,35 @@
 <html onclick="ee(event)">
 	<head>
 		<title>The Enigma Machine</title>
-		<link rel="stylesheet" href="style.css">
-		<script src="processing.js"></script>
+		<link rel="stylesheet" href="./style.css">
+		<script src="./processing.js"></script>
 	</head>
 	<body>
 		<h1>The Enigma Machine</h1>
-		<canvas data-processing-sources="enigma/enigma.pde" id="canvas"></canvas>
+		<canvas data-processing-sources="./enigma/enigma.pde" id="canvas"></canvas>
+		<div id="op">
+			<input type="text" id="text-in"><br>
+			<input type="button" value="Crypt!" id="button" onclick="crypt()"><br>
+			<input type="text" id="text-out"><br>
+			<input type="button" value="Reset" id="reset" onclick="reset()">
+		</div>
 		<script>
+			var plaintext;
+			var ciphertext;
+			setInterval(readCipher, 20);
+			function crypt() {
+				var processingInstance = Processing.getInstanceById("canvas");
+				plaintext = document.getElementById("text-in").value;
+				processingInstance.setPlaintext(plaintext);
+			}
+			function reset() {
+				var processingInstance = Processing.getInstanceById("canvas");
+				processingInstance.resetCipher();
+			}
+			function readCipher() {
+				var processingInstance = Processing.getInstanceById("canvas");
+				document.getElementById("text-out").value = processingInstance.getCiphertext();
+			}
 			function ee(e) {
 				if (e.x == 0 && e.y == 0) {
 					window.location.href = "https://buster.lu";
