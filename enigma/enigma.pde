@@ -28,8 +28,29 @@ int swapChar;
 
 /* @pjs font="lucon.ttf"; */
 
+String plaintext = "";
+String ciphertext = "";
+
+long cTimer;
+long rTimer;
+int cKey = 0;
+boolean updated = false;
+
+void setPlaintext(String t) {
+  plaintext = t;
+}
+
+String getCiphertext() {
+  return ciphertext;
+}
+
+void resetCipher() {
+  plaintext = "";
+  ciphertext = "";
+}
+
 void setup() {
-  size(1920 * 0.565, 1080 * 0.68, P2D);
+  size(1920 * 0.6, 1080 * 0.68, P2D);
   rectMode(CORNERS);
   textAlign(CENTER);
   textFont(createFont("lucon.ttf", 48));
@@ -46,6 +67,20 @@ void setup() {
 }
 
 void draw() {
+  if (plaintext.length() > 0 && millis() - cTimer >= 100) {
+    cTimer = millis();
+    rTimer = millis();
+    cKey = int(plaintext.toCharArray()[0]);
+    keys[cKey] = true;
+    plaintext = plaintext.substring(1);
+    updated = true;
+  }
+  if (millis() - rTimer >= 50 && (plaintext.length() > 0 || cKey != 0)) {
+    keys[cKey] = false;
+    if (plaintext.length() == 0 && cKey != 0) {
+      cKey = 0;
+    }
+  }
   int p = -1;
   for (int i = 0; i < 128; i++) {
     if (keys[i] && i >= int('A') && i <= int('Z')) {
@@ -69,7 +104,12 @@ void draw() {
     }
   } else {
     //decode = "";
-    encKeys[getPlugboard(getRotors(getPlugboard(p - int('A')))) + int('A')] = true;
+    int k = getPlugboard(getRotors(getPlugboard(p - int('A')))) + int('A');
+    if (cKey != 0 && updated) {
+      updated = false;
+      ciphertext += toChar(k);
+    }
+    encKeys[k] = true;
   }
   background(255);
   fill(0, 30, 10);
@@ -283,6 +323,9 @@ int getPlugboard(int k) {
 }
 
 void keyPressed() {
+  if (plaintext.length() > 0) {
+    return;
+  }
   if (keyCode == CONTROL) {
     command = 2;
   } else if (command > 0) {
@@ -326,6 +369,9 @@ void keyPressed() {
 }
 
 void keyReleased() {
+  if (plaintext.length() > 0) {
+    return;
+  }
   if (keyCode > 127) {
     return;
   }
