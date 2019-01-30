@@ -104,7 +104,7 @@ void draw() {
     }
   } else {
     //decode = "";
-    int k = getPlugboard(getRotors(getPlugboard(p - int('A')))) + int('A');
+    int k = getPlugboardRev(getRotors(getPlugboard(p - int('A')))) + int('A');
     if (cKey != 0 && updated) {
       updated = false;
       ciphertext += toChar(k);
@@ -295,7 +295,6 @@ int getRotorRev(int s, int k) {
   k = inRange(k + rotors[s]);
   for (int i = 0; i < 26; i++) {
     if (rotorConfig[s][i] == k) {
-      //decode += "RotorR " + rotorNames[s] + ": " + toChar(k + int('A')) + " to " + toChar(inRange(i - rotors[s]) + int('A')) + "\n";
       return inRange(i - rotors[s]);
     }
   }
@@ -304,12 +303,10 @@ int getRotorRev(int s, int k) {
 
 int getRotor(int s, int k) {
   k = inRange(k + rotors[s]);
-  //decode += "Rotor " + rotorNames[s] + ": " + toChar(k + int('A')) + " to " + toChar(inRange(rotorConfig[s][k] - rotors[s]) + int('A')) + "\n";
   return inRange(rotorConfig[s][k] - rotors[s]);
 }
 
 int getReflector(int k) {
-  //decode += "Reflector: " + toChar(k + int('A')) + " to " + toChar(reflector[k] + int('A')) + "\n";
   return reflector[k];
 }
 
@@ -317,8 +314,16 @@ int getRotors(int k) {
   return getRotorRev(2, getRotorRev(1, getRotorRev(0, getReflector(getRotor(0, getRotor(1, getRotor(2, k)))))));
 }
 
+int getPlugboardRev(int k) {
+ for (int i = 0; i < 26; i++) {
+    if (plugboard[i] == k) {
+      return i;
+    }
+  }
+  return -1;
+}
+
 int getPlugboard(int k) {
-  //decode += "Plugboard: " + toChar(k + int('A')) + " to " + toChar(plugboard[k] + int('A')) + "\n";
   return plugboard[k];
 }
 
