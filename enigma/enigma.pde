@@ -104,7 +104,7 @@ void draw() {
     }
   } else {
     //decode = "";
-    int k = getPlugboardRev(getRotors(getPlugboard(p - int('A')))) + int('A');
+    int k = getPlugboard(getRotors(getPlugboard(p - int('A')))) + int('A');
     if (cKey != 0 && updated) {
       updated = false;
       ciphertext += toChar(k);
@@ -314,15 +314,6 @@ int getRotors(int k) {
   return getRotorRev(2, getRotorRev(1, getRotorRev(0, getReflector(getRotor(0, getRotor(1, getRotor(2, k)))))));
 }
 
-int getPlugboardRev(int k) {
- for (int i = 0; i < 26; i++) {
-    if (plugboard[i] == k) {
-      return i;
-    }
-  }
-  return -1;
-}
-
 int getPlugboard(int k) {
   return plugboard[k];
 }
@@ -338,9 +329,11 @@ void keyPressed() {
       if (command == 2) {
         swapChar = keyCode - int('A');
       } else {
-        int tmp = plugboard[swapChar];
-        plugboard[swapChar] = plugboard[keyCode - int('A')];
-        plugboard[keyCode - int('A')] = tmp;
+        if (plugboard[swapChar] == keyCode - int('A') || (swapChar == plugboard[swapChar] && keyCode - int('A') == plugboard[keyCode - int('A')])) {
+          int tmp = plugboard[swapChar];
+          plugboard[swapChar] = plugboard[keyCode - int('A')];
+          plugboard[keyCode - int('A')] = tmp;
+        }
       }
       command--;
     } else if (key == ' ') {
