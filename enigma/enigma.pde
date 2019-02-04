@@ -328,6 +328,18 @@ void keyPressed() {
     if (keyCode >= int('A') && keyCode <= int('Z')) {
       if (command == 2) {
         swapChar = keyCode - int('A');
+      } else if (swapChar == 128 && keyCode >= int('B') && keyCode <= int('C')) {
+        switch (keyCode) {
+          case int('B'):
+            reflector = refl_B;
+            reflName = "B";
+            break;
+          case int('C'):
+            reflector = refl_C;
+            reflName = "C";
+            break;
+        }
+        swapChar = 0;
       } else {
         if (plugboard[swapChar] == keyCode - int('A') || (swapChar == plugboard[swapChar] && keyCode - int('A') == plugboard[keyCode - int('A')])) {
           int tmp = plugboard[swapChar];
@@ -357,6 +369,9 @@ void keyPressed() {
         }
       }
       command--;
+    } else if (keyCode == int('0') && command == 2) {
+      swapChar = 128;
+      command = 1;
     }
     return;
   }
