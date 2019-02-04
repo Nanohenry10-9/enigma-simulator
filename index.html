@@ -19,7 +19,7 @@
 			var plaintext;
 			var ciphertext;
 			setInterval(readCipher, 20);
-			var pInstance;
+			var pInstance = 0;
 			function crypt() {
 				verify();
 				plaintext = document.getElementById("text-in").value;
@@ -34,7 +34,7 @@
 				document.getElementById("text-out").value = pInstance.getCiphertext();
 			}
 			function verify() {
-				if (pInstance == null) {
+				if (pInstance == 0) {
 					var pInstance = Processing.getInstanceById('simulator');
 				}
 			}
