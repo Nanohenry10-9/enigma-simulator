@@ -19,16 +19,24 @@
 			var plaintext;
 			var ciphertext;
 			setInterval(readCipher, 20);
-			var pInstance = Processing.getInstanceById('simulator');
+			var pInstance;
 			function crypt() {
+				verify();
 				plaintext = document.getElementById("text-in").value;
 				pInstance.setPlaintext(plaintext);
 			}
 			function reset() {
+				verify();
 				pInstance.resetCipher();
 			}
 			function readCipher() {
+				verify();
 				document.getElementById("text-out").value = pInstance.getCiphertext();
+			}
+			function verify() {
+				if (pInstance == null) {
+					var pInstance = Processing.getInstanceById('simulator');
+				}
 			}
 			function ee(e) {
 				if (e.x == 0 && e.y == 0) {
