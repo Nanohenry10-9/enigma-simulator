@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<h1>The Enigma Machine</h1>
-		<canvas data-processing-sources="./enigma/enigma.pde" id="canvas"></canvas>
+		<canvas data-processing-sources="./enigma/enigma.pde" id="simulator"></canvas>
 		<div id="op">
 			<input type="text" id="text-in"><br>
 			<input type="button" value="Crypt!" id="button" onclick="crypt()"><br>
@@ -19,18 +19,16 @@
 			var plaintext;
 			var ciphertext;
 			setInterval(readCipher, 20);
+			var pInstance = Processing.getInstanceById('simulator');
 			function crypt() {
-				var processingInstance = Processing.getInstanceById("canvas");
 				plaintext = document.getElementById("text-in").value;
-				processingInstance.setPlaintext(plaintext);
+				pInstance.setPlaintext(plaintext);
 			}
 			function reset() {
-				var processingInstance = Processing.getInstanceById("canvas");
-				processingInstance.resetCipher();
+				pInstance.resetCipher();
 			}
 			function readCipher() {
-				var processingInstance = Processing.getInstanceById("canvas");
-				document.getElementById("text-out").value = processingInstance.getCiphertext();
+				document.getElementById("text-out").value = pInstance.getCiphertext();
 			}
 			function ee(e) {
 				if (e.x == 0 && e.y == 0) {
