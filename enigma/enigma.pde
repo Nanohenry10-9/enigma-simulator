@@ -357,15 +357,6 @@ void keyPressed() {
         }
       }
       command--;
-    } else if (keyCode == int('0') && command == 2) {
-      if (reflName == "C") {
-        reflector = refl_B;
-        reflName = "B";
-      } else {
-        reflector = refl_C;
-        reflName = "C";
-      }
-      command = 0;
     }
     return;
   }
