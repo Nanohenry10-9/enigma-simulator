@@ -2,7 +2,7 @@ body {
 	background-color: #AAFFFF;
 }
 
-#canvas {
+#simulator {
 	position: absolute;
 	left: 5%;
 	right: 35%;

@@ -1,3 +1,5 @@
+/* @pjs font="lucon.ttf"; */
+
 boolean keys[] = new boolean[128];
 boolean encKeys[] = new boolean[128];
 
@@ -26,23 +28,12 @@ int swapChar;
 
 //String decode = "";
 
-/* @pjs font="lucon.ttf"; */
-
-String plaintext = "";
-String ciphertext = "";
+String plaintext = "", ciphertext = "";
 
 long cTimer;
 long rTimer;
 int cKey = 0;
 boolean updated = false;
-
-void setPlaintext(String t) {
-  plaintext = t;
-}
-
-String getCiphertext() {
-  return ciphertext;
-}
 
 void resetCipher() {
   plaintext = "";
@@ -67,6 +58,16 @@ void setup() {
 }
 
 void draw() {
+  if (_reset == 1) {
+    _reset = 0;
+    resetCipher();
+  }
+  if (_plaintext.length() > 0) {
+    plaintext = _plaintext;
+    _plaintext = "";
+  }
+  _ciphertext = ciphertext;
+  
   if (plaintext.length() > 0 && millis() - cTimer >= 100) {
     cTimer = millis();
     rTimer = millis();

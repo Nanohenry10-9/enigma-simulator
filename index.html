@@ -3,7 +3,7 @@
 	<head>
 		<title>The Enigma Machine</title>
 		<link rel="icon" type="image/png" href="favicon.png">
-		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="./style.css">
 		<script src="processing.js"></script>
 	</head>
 	<body>
@@ -16,27 +16,17 @@
 			<input type="button" value="Reset" id="reset" onclick="reset()">
 		</div>
 		<script>
-			var plaintext;
-			var ciphertext;
 			setInterval(readCipher, 20);
-			var pInstance = 0;
+			var _reset = 0;
+			var _plaintext = "", _ciphertext = "";
 			function crypt() {
-				verify();
-				plaintext = document.getElementById("text-in").value;
-				pInstance.setPlaintext(plaintext);
+				_plaintext = document.getElementById("text-in").value;
 			}
 			function reset() {
-				verify();
-				pInstance.resetCipher();
+				_reset = 1;
 			}
 			function readCipher() {
-				verify();
-				document.getElementById("text-out").value = pInstance.getCiphertext();
-			}
-			function verify() {
-				if (pInstance == 0) {
-					var pInstance = Processing.getInstanceById('simulator');
-				}
+				document.getElementById("text-out").value = _ciphertext;
 			}
 			function ee(e) {
 				if (e.x == 0 && e.y == 0) {
