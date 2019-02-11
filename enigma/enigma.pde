@@ -61,6 +61,9 @@ void draw() {
   if (_reset == 1) {
     _reset = 0;
     resetCipher();
+    rotors[0] = 0;
+    rotors[1] = 0;
+    rotors[2] = 0;
   }
   if (_plaintext.length() > 0) {
     plaintext = _plaintext;
