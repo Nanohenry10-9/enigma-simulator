@@ -71,7 +71,7 @@ void draw() {
   if (plaintext.length() > 0 && millis() - cTimer >= 100) {
     cKey = int(plaintext.toCharArray()[0]);
     if (cKey < int('A') || cKey > int('Z')) {
-      ciphertext += plaintext.toCharArray()[0];
+      ciphertext += plaintext[0];
       return;
     }
     keys[cKey] = true;
