@@ -69,12 +69,16 @@ void draw() {
   _ciphertext = ciphertext;
   
   if (plaintext.length() > 0 && millis() - cTimer >= 100) {
-    cTimer = millis();
-    rTimer = millis();
     cKey = int(plaintext.toCharArray()[0]);
+    if (cKey < int('A') || cKey > int('Z')) {
+      ciphertext += plaintext.toCharArray()[0];
+      return;
+    }
     keys[cKey] = true;
     plaintext = plaintext.substring(1);
     updated = true;
+    cTimer = millis();
+    rTimer = millis();
   }
   if (millis() - rTimer >= 50 && (plaintext.length() > 0 || cKey != 0)) {
     keys[cKey] = false;
