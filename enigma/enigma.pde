@@ -234,7 +234,7 @@ void drawWire(int x1, int y1, int x2, int y2) {
   noStroke();
   int dy = (y2 - y1) / abs(x1 - x2);
   for (int x = x1; x <= x2; x++) {
-    rect(x - 2, (x - x1) * dy + y1 + sin(map(x, x1, x2, 0, PI)) * 50 - 2, 4, 4);
+    rect(x - 1, (x - x1) * dy + y1 + sin(map(x, x1, x2, 0, PI)) * 50 - 1, 2, 2);
   }
 }
 
