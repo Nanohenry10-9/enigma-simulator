@@ -214,11 +214,8 @@ void draw() {
   // plugboard
   textSize(24);
   for (int i = 0; i < 26; i++) {
-    stroke(127);
     int c = getPlugboard(i);
-    strokeWeight(3);
-    line(width * (3.0 / 4.0) - 210 - 3, height / 2 + (i - 12.5) * 25, width * (3.0 / 4.0) + 210 - 3, height / 2 + (c - 12.5) * 25);
-    strokeWeight(1);
+    drawWire(width * (3.0 / 4.0) - 210 - 3, height / 2 + (i - 12.5) * 25, width * (3.0 / 4.0) + 210 - 3, height / 2 + (c - 12.5) * 25);
   }
   for (int i = 0; i < 26; i++) {
     fill(255);
@@ -230,6 +227,15 @@ void draw() {
     text(toChar(i + int('A')), width * (3.0 / 4.0) + 210 - 3, height / 2 + (i - 12.5) * 25 + 7);
   }
   rectMode(CORNERS);
+}
+
+void drawWire(int x1, int y1, int x2, int y2) {
+  fill(127);
+  noStroke();
+  int dy = (y2 - y1) / abs(x1 - x2);
+  for (int x = x1; x <= x2; x++) {
+    rect(x - 2, (x - x1) * dy + y1 + sin(map(x, x1, x2, 0, PI)) * 50 - 2, 4, 4);
+  }
 }
 
 String toChar(int k) {
