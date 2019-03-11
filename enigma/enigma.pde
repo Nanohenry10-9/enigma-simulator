@@ -84,7 +84,7 @@ void draw() {
     cTimer = millis();
     rTimer = millis();
   }
-  if (millis() - rTimer >= 50 && (plaintext.length() > 0 || cKey != 0)) {
+  if (millis() - rTimer >= 20 && (plaintext.length() > 0 || cKey != 0)) {
     keys[cKey] = false;
     if (plaintext.length() == 0 && cKey != 0) {
       cKey = 0;
