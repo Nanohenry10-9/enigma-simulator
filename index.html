@@ -50,7 +50,7 @@
 			function scramble() {
 				var t = document.getElementById("title");
 				var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-				for (int i = 0; i < t.innerHTML.length; i++) {
+				for (var i = 0; i < t.innerHTML.length; i++) {
 					if (t.innerHTML[i] != ' ') {
 					    t.innerHTML[i] = chars.charAt(Math.floor(Math.random() * chars.length));
 					}
