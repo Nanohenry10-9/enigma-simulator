@@ -50,9 +50,9 @@
 			function scramble() {
 				var t = document.getElementById("title");
 				var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-				for (var i = 0; i < t.innerHTML.length; i++) {
-					if (t.innerHTML[i] != ' ') {
-					    t.innerHTML[i] = chars.charAt(Math.floor(Math.random() * chars.length));
+				for (var i = 0; i < t["textContent"].length; i++) {
+					if (t["textContent"][i] != ' ') {
+					    t["textContent"][i] = chars.charAt(Math.floor(Math.random() * chars.length));
 					}
 				}
 			}
