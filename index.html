@@ -8,7 +8,7 @@
 		<script src="processing.js"></script>
 	</head>
 	<body>
-		<h1><b>The Enigma Machine</b></h1>
+		<h1 id="title"><b>The Enigma Machine</b></h1>
 		<canvas data-processing-sources="./enigma/enigma.pde" id="simulator"></canvas>
 		<img src="info.png" id="infoBtn" onclick="help()">
 		<div id="op">
@@ -21,11 +21,17 @@
 			setInterval(readCipher, 20);
 			var _reset = 0;
 			var _plaintext = "", _ciphertext = "";
+			var int;
 			function check() {
 				document.getElementById("text-in").value = document.getElementById("text-in").value.toUpperCase();
 			}
 			function crypt() {
-				_plaintext = document.getElementById("text-in").value;
+				vat text = document.getElementById("text-in").value;
+				if (text == "THE ENIGMA MACHINE") {
+					int = setInterval(scramble, 100);
+					setTimeout(setTitle, 1500);
+				}
+				_plaintext = text;
 			}
 			function reset() {
 				_reset = 1;
@@ -40,6 +46,19 @@
 			}
 			function help() {
 				alert("Input: keyboard keys A - Z\nChange plugboard: CTRL + [key 1, A - Z] + [key 2, A - Z]\nChange rotors: CTRL + [rotor number, 1 - 3] + [rotor name, 1 - 3]\nReset rotors: CTRL + SPACE\n\n(you may need to first click on the simulator to use it)");
+			}
+			function scramble() {
+				var t = document.getElementById("title");
+				var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+				for (int i = 0; i < t.innerHTML.length; i++) {
+					if (t.innerHTML[i] != ' ') {
+					    t.innerHTML[i] = chars.charAt(Math.floor(Math.random() * chars.length));
+					}
+				}
+			}
+			function setTitle() {
+				clearInterval(int);
+				document.getElementById("title").innerHTML = "Opc Wclznl Vkkgqon";
 			}
 		</script>
 	</body>
