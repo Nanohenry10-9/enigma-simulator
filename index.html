@@ -50,15 +50,18 @@
 			function scramble() {
 				var t = document.getElementById("title");
 				var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-				for (var i = 0; i < t["textContent"].length; i++) {
-					if (t["textContent"][i] != ' ') {
-					    t["textContent"][i] = chars.charAt(Math.floor(Math.random() * chars.length));
+				for (var i = 0; i < t.innerHTML.length; i++) {
+					if (t.innerHTML.charAt(i) != ' ') {
+					    t.innerHTML = t.innerHTML.replaceAt(i, chars.charAt(Math.floor(Math.random() * chars.length)));
 					}
 				}
 			}
 			function stopScramble() {
 				clearInterval(int);
 				document.getElementById("title").innerHTML = "Opc Wclznl Vkkgqon";
+			}
+			String.prototype.replaceAt = function(index, replacement) {
+				return this.substr(0, index) + replacement + this.substr(index + replacement.length);
 			}
 		</script>
 	</body>
