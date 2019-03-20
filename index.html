@@ -26,10 +26,10 @@
 				document.getElementById("text-in").value = document.getElementById("text-in").value.toUpperCase();
 			}
 			function crypt() {
-				vat text = document.getElementById("text-in").value;
+				var text = document.getElementById("text-in").value;
 				if (text == "THE ENIGMA MACHINE") {
-					int = setInterval(scramble, 100);
-					setTimeout(setTitle, 1500);
+					int = setInterval(scramble, 150);
+					setTimeout(stopScramble, 1500);
 				}
 				_plaintext = text;
 			}
@@ -56,7 +56,7 @@
 					}
 				}
 			}
-			function setTitle() {
+			function stopScramble() {
 				clearInterval(int);
 				document.getElementById("title").innerHTML = "Opc Wclznl Vkkgqon";
 			}
