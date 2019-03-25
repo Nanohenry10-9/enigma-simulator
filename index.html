@@ -51,7 +51,7 @@
 				var t = document.getElementById("title");
 				var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 				for (var i = 0; i < t.innerHTML.length; i++) {
-					if (t.innerHTML.charAt(i) != ' ') {
+					if (chars.includes(t.innerHTML.charAt(i))) {
 					    t.innerHTML = t.innerHTML.replaceAt(i, chars.charAt(Math.floor(Math.random() * chars.length)));
 					}
 				}
