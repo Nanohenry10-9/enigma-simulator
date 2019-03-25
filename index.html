@@ -8,7 +8,7 @@
 		<script src="processing.js"></script>
 	</head>
 	<body>
-		<h1 id="title"><b>The Enigma Machine</b></h1>
+		<h1 id="title">The Enigma Machine</h1>
 		<canvas data-processing-sources="./enigma/enigma.pde" id="simulator"></canvas>
 		<img src="info.png" id="infoBtn" onclick="help()">
 		<div id="op">
@@ -63,6 +63,7 @@
 			String.prototype.replaceAt = function(index, replacement) {
 				return this.substr(0, index) + replacement + this.substr(index + replacement.length);
 			}
+			document.getElementById("title").innerHTML = "The Enigma Machine";
 		</script>
 	</body>
 </html>
