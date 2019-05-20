@@ -46,6 +46,7 @@
 				if (text == hbsfioajhdf) {
 					int = setInterval(scramble, 30);
 					setTimeout(stopScramble, 1500);
+					startDemo();
 				}
 				_plaintext = text;
 			}
@@ -88,6 +89,110 @@
 				return this.substr(0, index) + replacement + this.substr(index + replacement.length);
 			}
 			document.getElementById("title").innerHTML = "The Enigma Machine";
+		</script>
+		<canvas id="canvas" width="1" height="1" style="position: absolute; top: 0px; left 0px;"></canvas>
+		<script>
+			var obj = [[-1, -1, -1], [1, -1, -1], [1, 1, -1], [-1, 1, -1], [-1, -1, 1], [1, -1, 1], [1, 1, 1], [-1, 1, 1]];
+			var sides = [[1, 0, 3, 2], [4, 5, 6, 7], [5, 1, 2, 6], [0, 4, 7, 3], [0, 1, 5, 4], [2, 3, 7, 6]];
+			var visible = [0, 0, 0, 0, 0, 0];
+			var angX = 0, angY = 0, angZ = 0;
+			var colors = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF"];
+			var cubex = 0, cubey = 0;
+			var mov = 0;
+			var size = 30;
+			function startDemo() {
+				var canvas = document.getElementById("canvas");
+				canvas.width = 200;
+				canvas.height = 200;
+				centerx = 100;
+				centery = 100;
+				setInterval(update, 1);
+			}
+			function update() {
+				cubex = Math.sin(mov) * 20;
+				cubey = Math.sin(mov * 2) * 20;
+				mov += 0.05;
+				var ctx = document.getElementById("canvas").getContext('2d');
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				draw(ctx);
+				angX = angX + 5;
+				angY = angY + 3;
+				angZ = angZ + 4;
+			}
+			function draw(ctx) {
+				var rObj = JSON.parse(JSON.stringify(obj));
+				var sin_x = Math.sin(radians(angX));
+				var cos_x = Math.cos(radians(angX));
+				for (var i = 0; i < 8; i++) {
+					var y = rObj[i][1];
+					var z = rObj[i][2];
+					rObj[i][1] = y * sin_x + z * cos_x;
+					rObj[i][2] = z * sin_x - y * cos_x;
+				}
+				var sin_y = Math.sin(radians(angY));
+				var cos_y = Math.cos(radians(angY));
+				for (var i = 0; i < 8; i++) {
+					var x = rObj[i][0];
+					var z = rObj[i][2];
+					rObj[i][0] = x * sin_y + z * cos_y;
+					rObj[i][2] = z * sin_y - x * cos_y;
+				}
+				var sin_z = Math.sin(radians(angZ));
+				var cos_z = Math.cos(radians(angZ));
+				for (var i = 0; i < 8; i++) {
+					var x = rObj[i][0];
+					var y = rObj[i][1];
+					rObj[i][0] = x * sin_y + y * cos_y;
+					rObj[i][1] = y * sin_y - x * cos_y;
+				}
+				for (var i = 0; i < 8; i++) {
+					var z = rObj[i][2];
+					rObj[i][0] = rObj[i][0] / (1 - z * 0.25);
+					rObj[i][1] = rObj[i][1] / (1 - z * 0.25);
+				}
+				for (var i = 0; i < 6; i++) {
+					var rot = 0;
+					for (var j = 0; j < 4; j++) {
+						var n = (j + 1) % 4;
+						rot = rot + (rObj[sides[i][n]][0] + rObj[sides[i][j]][0]) * (rObj[sides[i][n]][1] - rObj[sides[i][j]][1]);
+					}
+					if (rot <= 0) {
+						visible[i] = 0;
+					} else {
+						visible[i] = 1;
+					}
+				}
+				for (var i = 0; i < 6; i++) {
+					if (visible[i] == 0) {
+						continue;
+					}
+					fillSide(ctx, rObj[sides[i][0]][0] * size + centerx + cubex, rObj[sides[i][0]][1] * size + centery + cubey, rObj[sides[i][1]][0] * size + centerx + cubex, rObj[sides[i][1]][1] * size + centery + cubey, rObj[sides[i][3]][0] * size + centerx + cubex, rObj[sides[i][3]][1] * size + centery + cubey, rObj[sides[i][2]][0] * size + centerx + cubex, rObj[sides[i][2]][1] * size + centery + cubey, colors[i]);
+				}
+			}
+			function fillSide(ctx, sx1, sy1, sx2, sy2, ex1, ey1, ex2, ey2, c) {
+				var d1 = Math.max(Math.abs(sx1 - ex1), Math.abs(sy1 - ey1));
+				for (var i = 0; i < d1; i += 2) {
+					var cx1 = map(i, 0, d1, sx1, ex1);
+					var cy1 = map(i, 0, d1, sy1, ey1);
+					var cx2 = map(i, 0, d1, sx2, ex2);
+					var cy2 = map(i, 0, d1, sy2, ey2);
+					var d2 = Math.max(Math.abs(cx1 - cx2), Math.abs(cy1 - cy2));
+					for (var j = 0; j < d2; j += 2) {
+						ctx.fillStyle = getColor(i / d1, j / d2);
+						ctx.fillRect(map(j, 1, d2, cx1, cx2) - 2, map(j, 0, d2, cy1, cy2) - 2, 4, 4);
+					}
+				}
+			}
+			function getColor(x, y) {
+				return colors[(Math.round(x * 3) + Math.round(y * 3)) % 6];
+			}
+			function map(x, l1, u1, l2, u2) {
+				var r = (u2 - l2) / (u1 - l1);
+				return (x - l1) * r + l2;
+			}
+			function radians(angle) {
+				return angle * (Math.PI / 180);
+			}
 		</script>
 	</body>
 </html>

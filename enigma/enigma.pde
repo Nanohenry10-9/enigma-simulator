@@ -35,6 +35,10 @@ long rTimer;
 int cKey = 0;
 boolean updated = false;
 
+color fc = color(0, 30, 10);
+boolean woah = false;
+long ticks = 0;
+
 void resetCipher() {
   plaintext = "";
   ciphertext = "";
@@ -58,6 +62,13 @@ void setup() {
 }
 
 void draw() {
+  if (woah) {
+	colorMode(HSB);
+	fc = color(ticks % 256, 255, 255);
+	ticks += 2;
+	colorMode(RGB);
+  }
+
   if (_reset == 1) {
     _reset = 0;
     resetCipher();
@@ -68,6 +79,9 @@ void draw() {
   if (_plaintext.length() > 0) {
     plaintext = _plaintext;
     _plaintext = "";
+	if (plaintext == "THE ENIGMA MACHINE") {
+	  woah = true;
+	}
   }
   _ciphertext = ciphertext;
   
@@ -76,13 +90,13 @@ void draw() {
     if (cKey < int('A') || cKey > int('Z')) {
       ciphertext += plaintext[0];
       plaintext = plaintext.substring(1);
-      return;
-    }
-    plaintext = plaintext.substring(1);
-    keys[cKey] = true;
-    updated = true;
-    cTimer = millis();
-    rTimer = millis();
+    } else {
+      plaintext = plaintext.substring(1);
+      keys[cKey] = true;
+      updated = true;
+      cTimer = millis();
+      rTimer = millis();
+	}
   }
   if (millis() - rTimer >= 20 && (plaintext.length() > 0 || cKey != 0)) {
     keys[cKey] = false;
@@ -121,10 +135,10 @@ void draw() {
     encKeys[k] = true;
   }
   background(255);
-  fill(0, 30, 10);
+  fill(fc);
   noStroke();
-  rect(10, 10, width / 2 - 5, height - 10, 20);
-  rect(width / 2 + 5, 10, width - 10, height - 10, 20);
+  rect(10, 10, width / 2 - 5, height - 10);
+  rect(width / 2 + 5, 10, width - 10, height - 10);
   // keyboard
   textSize(28);
   for (int i = 0; i < 9; i++) {
@@ -198,8 +212,8 @@ void draw() {
   rectMode(CENTER);
   for (int i = 0; i < 3; i++) {
     fill(255);
-    rect(width / 4 + (i - 1) * 140, height / 2 - 240, 50, 70, 10);
-    rect(width / 4 + (i - 1) * 140, height / 2 - 300, 50, 30, 10);
+    rect(width / 4 + (i - 1) * 140, height / 2 - 240, 50, 70);
+    rect(width / 4 + (i - 1) * 140, height / 2 - 300, 50, 30);
     fill(0);
     textSize(48);
     text(char(rotors[i] + int('A')), width / 4 + (i - 1) * 140, height / 2 - 240 + 17);
@@ -207,7 +221,7 @@ void draw() {
     text(rotorNames[i], width / 4 + (i - 1) * 140, height / 2 - 300 + 8);
   }
   fill(255);
-  rect(width / 4 - 210, height / 2 - 240, 40, 50, 10);
+  rect(width / 4 - 210, height / 2 - 240, 40, 50);
   fill(0);
   textSize(28);
   text(relfName, width / 4 - 210, height / 2 - 240 + 10);
@@ -220,8 +234,8 @@ void draw() {
   for (int i = 0; i < 26; i++) {
     fill(255);
     noStroke();
-    rect(width * (3.0 / 4.0) - 210 - 3, height / 2 + (i - 12.5) * 25, 20, 20, 5);
-    rect(width * (3.0 / 4.0) + 210 - 3, height / 2 + (i - 12.5) * 25, 20, 20, 5);
+    rect(width * (3.0 / 4.0) - 210 - 3, height / 2 + (i - 12.5) * 25, 20, 20);
+    rect(width * (3.0 / 4.0) + 210 - 3, height / 2 + (i - 12.5) * 25, 20, 20);
     fill(0);
     text(toChar(i + int('A')), width * (3.0 / 4.0) - 210 - 3, height / 2 + (i - 12.5) * 25 + 7);
     text(toChar(i + int('A')), width * (3.0 / 4.0) + 210 - 3, height / 2 + (i - 12.5) * 25 + 7);
